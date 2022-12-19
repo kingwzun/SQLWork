@@ -44,7 +44,7 @@
 						<dl class="layui-nav-child">
 							<dd>
 								<a href="javascript:;" 
-								data-url="${pageContext.request.contextPath}/user_list.jsp"
+								data-url="${pageContext.request.contextPath}/user/user_list.jsp"
 								class="site-demo-active">管理员管理</a>
 							</dd>
 							<dd>

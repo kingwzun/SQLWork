@@ -19,7 +19,7 @@ public class UserDaoImpl implements IUserDao {
 
     @Override
     public List<User> selectByPage(Integer offset, Integer limit) {
-        String sql = "select id,name,password,email,phone from user limit ?,?";
+        String sql = "select id,name,password,email,phone from user order by id desc limit ?,?";
         List<User> list = template.query(sql, new BeanPropertyRowMapper<User>(User.class), offset, limit);
         return list;
     }
@@ -53,5 +53,11 @@ public class UserDaoImpl implements IUserDao {
 
         sql += ")";
         return template.update(sql,ids);
+    }
+
+    @Override
+    public Integer add(User user) {
+        String sql = "insert into user(name,password,email,phone,avatar) values(?,?,?,?,?)";
+        return template.update(sql, user.getName(), user.getPassword(), user.getEmail(), user.getPhone(), user.getAvatar());
     }
 }

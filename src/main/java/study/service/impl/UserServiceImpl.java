@@ -43,4 +43,10 @@ public class UserServiceImpl implements IUserService {
         int count=userDao.deleteAll(ids);
         return count==array.length;
     }
+
+    @Override
+    public Boolean add(User user) {
+        int count=userDao.add(user);
+        return count==1;
+    }
 }

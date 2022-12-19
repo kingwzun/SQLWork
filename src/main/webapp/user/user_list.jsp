@@ -9,12 +9,11 @@
 <html>
 <head>
     <title>Title</title>
-    <%@ include file="header.jsp" %>
+    <%@ include file="../header.jsp" %>
 </head>
 <body>
 <%--表格内嵌工具条--%>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -55,6 +54,13 @@
             var checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
                 case 'add':
+                    //转跳到新页面打开
+                <%--location.href='${path}/user/user_add.jsp'--%>
+                    layer.open({
+                        type: 2,
+                        area: ['700px', '400px'],
+                        content: '${path}/user/user_add.jsp'
+                    })
                     break;
                 case 'deleteAll':
                     var data = checkStatus.data
@@ -100,9 +106,7 @@
         //监听右侧工具条
         table.on('tool(test)', function (obj) {
             var data = obj.data;
-            if (obj.event === 'detail') {
-                layer.msg('ID：' + data.id + ' 的查看操作');
-            } else if (obj.event === 'del') {
+            if (obj.event === 'del') {
                 layer.confirm('真的删除行么', function (index) {
                     $.post(
                         '${path}/user?method=deleteById', //发送的请求
@@ -151,38 +155,5 @@
         });
     });
 </script>
-
-
-<%--
-   <table class="table table-striped table-bordered table-hover table-condensed">
-        <tr>
-            <td>ID</td>
-            <td>名字</td>
-            <td>密码</td>
-            <td>邮箱</td>
-            <td>电话</td>
-            <td>删除</td>
-        </tr>
-        <c:forEach items="${list}" var="user">
-            <tr>
-                <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.password}</td>
-                <td>${user.email}</td>
-                <td>${user.phone}</td>
-                &lt;%&ndash;<td><a href="${path}/user?method=deleteById&id=${user.id}">删除</a></td>&ndash;%&gt;
-                <td><a href="javascript:deleteById(${user.id})">删除</a></td>
-            </tr>
-        </c:forEach>
-    </table>
-
-    <script>
-        function deleteById(id) {
-            var isDelete = confirm('您确认要删除么？');
-            if (isDelete) {
-                location.href = "${path}/user?method=deleteById&id=" + id;
-            }
-        }
-    </script>--%>
 </body>
 </html>
