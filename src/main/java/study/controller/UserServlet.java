@@ -35,8 +35,13 @@ public class UserServlet extends HttpServlet {
             case "deleteById":
                 deleteById(req, resp);
                 break;
+            case "deleteAll":
+                deleteAll(req,resp);
+                break;
         }
     }
+
+
 
     //https://layui.itze.cn/demo/table/user.json?page=1&limit=10
     ///user?method=selectById&page=1&limit=10
@@ -61,7 +66,18 @@ public class UserServlet extends HttpServlet {
             JSONUtil.obj2Json(JSONResult.error("删除失败"), resp);
         }
     }
-
+    private void deleteAll(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("UserServlet.deleteAll");
+        //"14,15"
+        String ids=req.getParameter("ids");
+        String[] array = ids.split(",");
+        Boolean isSuccess = userService.deleteAll(array);
+        if (isSuccess) {
+            JSONUtil.obj2Json(JSONResult.ok("删除成功"), resp);
+        } else {
+            JSONUtil.obj2Json(JSONResult.error("删除失败"), resp);
+        }
+    }
     private void selectAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("UserServlet.selectAll");
         List<User> list = userService.selectAll();

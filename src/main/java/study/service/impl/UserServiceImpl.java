@@ -30,6 +30,17 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Boolean deleteById(Integer id) {
         Integer count = userDao.deleteById(id);
-        return count == 1 ? true : false;
+        return count == 1;
+    }
+
+    @Override
+    public Boolean deleteAll(String[] array) {
+        Integer[] ids=new Integer[array.length];
+        for (int i = 0; i < array.length; i++) {
+            ids[i] = Integer.parseInt(array[i]);
+        }
+
+        int count=userDao.deleteAll(ids);
+        return count==array.length;
     }
 }

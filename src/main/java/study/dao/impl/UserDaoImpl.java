@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import study.dao.IUserDao;
 import study.pojo.User;
-import study.utils.JDBCUtil;;
+import study.utils.JDBCUtil;
 
 import java.util.List;
 
@@ -34,7 +34,24 @@ public class UserDaoImpl implements IUserDao {
     @Override
     public Integer deleteById(Integer id) {
         String sql = "delete from user where id=?";
-        int count = template.update(sql, id);
-        return count;
+        return template.update(sql, id);
+    }
+
+    @Override
+    public Integer deleteAll(Integer[] ids) {
+        //[14,15]
+        // delete from user where id in(?,?);
+        String sql = "delete from user where id in(";
+
+        //拼接？和，如果采用高级内置方法写就是：sql+= Stream.of(ids).map(item->"?").collect(Collectors.joining(","));
+        //拼接？和，
+        for (Integer id : ids) {
+            sql += "?,";
+        }
+        //delete from user where id in(?,?,
+        sql = sql.substring(0, sql.length() - 1);
+
+        sql += ")";
+        return template.update(sql,ids);
     }
 }

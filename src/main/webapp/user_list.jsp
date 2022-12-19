@@ -9,56 +9,112 @@
 <html>
 <head>
     <title>Title</title>
-    <%@ include file="header.jsp"%>
+    <%@ include file="header.jsp" %>
 </head>
 <body>
+<%--表格内嵌工具条--%>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+<%--顶部工具条--%>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+        <button class="layui-btn layui-btn-sm" lay-event="deleteAll">批量删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+    </div>
+</script>
 
-<table class="layui-hide" id="LAY_table_user" lay-filter="layFilter"></table>
+<table class="layui-hide" id="test" lay-filter="test"></table>
 
 <script>
-    layui.use('table', function(){
+    layui.use('table', function () {
         var table = layui.table;
 
         //table 方法级渲染
         table.render({
-            elem: '#LAY_table_user'
-            ,url: '${path}/user?method=selectByPage'
-            ,cols: [[
+            elem: '#test'
+            , url: '${path}/user?method=selectByPage'
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , cols: [[
                 {checkbox: true, fixed: true}
-                ,{field:'id', title: 'ID', sort: true}
-                ,{field:'name', title: '用户名'}
-                ,{field:'password', title: '密码'}
-                ,{field:'email', title: '邮箱'}
-                ,{field:'phone', title: '电话'}
-                ,{field:'phone', title: '操作', toolbar: '#barDemo'}
+                , {field: 'id', title: 'ID', sort: true}
+                , {field: 'name', title: '用户名'}
+                , {field: 'password', title: '密码'}
+                , {field: 'email', title: '邮箱'}
+                , {field: 'phone', title: '电话'}
+                , {field: 'phone', title: '操作', toolbar: '#barDemo'}
             ]]
-            ,id: 'tableId'
-            ,page: true,
+            , id: 'tableId'
+            , page: true,
         });
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'add':
+                    break;
+                case 'deleteAll':
+                    var data = checkStatus.data
+                    var idArray = new Array()
+                    console.log(data)
+                    for (var i = 0; i < data.length; i++) {
+                        idArray.push(data[i].id);
+                    }
+                    //[14,25]-->'14,15'
+                    var ids = idArray.join(',')
+                    layer.confirm('真的删除行么', function (index) {
+                        $.post(
+                            '${path}/user?method=deleteAll  ', //发送的请求
+                            {'ids': ids},
+                            function (jsonResult) {     //返回的参数
+                                console.log(jsonResult);
+                                if (jsonResult.ok) {
 
+                                    mylayer.okMsg('批量删除成功') //后台传入一样 mylayer.okMsg(jsonResult.msg)
+                                    //删除之后刷新表格展示最新的数据
+                                    table.reload('tableId');
+                                } else {
+                                    mylayer.errorMsg('批量删除失败')//后台传入一样 mylayer.errorMsg(jsonResult.msg)
+                                }
+                            },
+                            'json'
+                        );
+
+                        layer.close(index);
+                    });
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+            }
+            ;
+        });
         //监听右侧工具条
-        table.on('tool(layFilter)', function(obj){
+        table.on('tool(test)', function (obj) {
             var data = obj.data;
-            if(obj.event === 'detail'){
-                layer.msg('ID：'+ data.id + ' 的查看操作');
-            } else if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
                     $.post(
                         '${path}/user?method=deleteById', //发送的请求
-                        {'id':data.id},
-                        function(jsonResult) {     //返回的参数
+                        {'id': data.id},
+                        function (jsonResult) {     //返回的参数
                             console.log(jsonResult);
                             if (jsonResult.ok) {
-                                layer.msg('删除成功');
+                                mylayer.okMsg('删除成功')
                                 //删除之后刷新表格展示最新的数据
                                 table.reload('tableId');
                             } else {
-                                layer.msg('删除失败');
+                                mylayer.errorMsg('删除失败')
                             }
                         },
                         'json'
@@ -66,13 +122,13 @@
 
                     layer.close(index);
                 });
-            } else if(obj.event === 'edit'){
-                layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            } else if (obj.event === 'edit') {
+                layer.alert('编辑行：<br>' + JSON.stringify(data))
             }
         });
 
         var $ = layui.$, active = {
-            reload: function(){
+            reload: function () {
                 var demoReload = $('#demoReload');
 
                 //执行重载
@@ -80,7 +136,7 @@
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }
-                    ,where: {
+                    , where: {
                         key: {
                             id: demoReload.val()
                         }
@@ -89,16 +145,12 @@
             }
         };
 
-        $('.demoTable .layui-btn').on('click', function(){
+        $('.demoTable .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
     });
 </script>
-
-
-
-
 
 
 <%--
