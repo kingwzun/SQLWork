@@ -1,4 +1,4 @@
-package study.dao.controller;
+package study.controller;
 
 
 import study.pojo.User;
@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/user")
