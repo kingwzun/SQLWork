@@ -17,4 +17,6 @@ public interface IUserService {
     User selectById(int parseInt);
 
     Boolean update(User user);
+
+    User login(String name, String password);
 }

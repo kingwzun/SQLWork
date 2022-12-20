@@ -62,7 +62,7 @@
                 console.log(jsonResult)
                 if(jsonResult.ok){
                     layer.msg(
-                        '删除成功',
+                        '添加成功',
                         {icon : 1, time : 3000},
                         function() {// msg消失之后触发的函数
                             //获得当前弹出框的index

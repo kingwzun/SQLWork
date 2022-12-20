@@ -74,4 +74,12 @@ public class UserDaoImpl implements IUserDao {
         int count = template.update(sql, user.getName(), user.getPassword(), user.getEmail(), user.getPhone(), user.getAvatar(), user.getId());
         return count;
     }
+
+    @Override
+    public User selectByNameAndPassword(String name, String password) {
+        String sql = "select id,name,password,email,phone from user where name=? and password=?";
+        User user = null;
+        user=template.queryForObject(sql,new BeanPropertyRowMapper<User>(User.class), name,password);
+        return  user;
+    }
 }
