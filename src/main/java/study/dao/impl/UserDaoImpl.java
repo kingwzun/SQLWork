@@ -89,7 +89,7 @@ public class UserDaoImpl implements IUserDao {
             return null;
         }
         return user.get(0);
-//解决方法2：捕获异常
+//        解决方法2：捕获异常
 //        User user = null;
 //        try{
 //            user=template.queryForObject(sql,new BeanPropertyRowMapper<User>(User.class), name,password);
