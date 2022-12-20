@@ -127,7 +127,13 @@
                     layer.close(index);
                 });
             } else if (obj.event === 'edit') {
-                layer.alert('编辑行：<br>' + JSON.stringify(data))
+                // layer.alert('编辑行：<br>' + JSON.stringify(data))
+                layer.open({
+                    type: 2,
+                    area: ['700px', '400px'],
+                    // content: '${path}/user/user_update.jsp'
+                    content: '${path}/user?method=getUserUpdatePage&id=' + data.id
+                });
             }
         });
 

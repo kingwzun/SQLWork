@@ -9,60 +9,64 @@
 <html>
 <head>
     <title>Title</title>
-    <%@ include file="../header.jsp" %>
+    <%@ include file="../header.jsp"%>
 </head>
 <body>
 <form id="formId" class="layui-form layui-form-pane" action="">
+    <input type="hidden" name="id" readonly value="${user.id}"/>
+    <%--<div class="layui-form-item">
+        <label class="layui-form-label">ID</label>
+        <div class="layui-input-block">
+            <input type="text" name="id" readonly value="${user.id}" autocomplete="off" placeholder="请输入" class="layui-input">
+        </div>
+    </div>--%>
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-            <input type="text" name="name" autocomplete="off" placeholder="请输入" class="layui-input">
+            <input type="text" name="name" value="${user.name}" autocomplete="off" placeholder="请输入" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-block">
-            <input type="text" name="password" lay-verify="required" placeholder="请输入" autocomplete="off"
-                   class="layui-input">
+            <input type="text" name="password" value="${user.password}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">邮箱</label>
         <div class="layui-input-block">
-            <input type="text" name="email" lay-verify="required" placeholder="请输入" autocomplete="off"
-                   class="layui-input">
+            <input type="text" name="email" value="${user.email}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">电话</label>
         <div class="layui-input-block">
-            <input type="text" name="phone" lay-verify="required" placeholder="请输入" autocomplete="off"
-                   class="layui-input">
+            <input type="text" name="phone" value="${user.phone}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" type="button" onclick="submitForm()" >添加</button>
-            <button class="layui-btn" type="reset" >重置</button>
+            <button class="layui-btn" type="button" onclick="submitForm()">修改</button>
+            <button class="layui-btn" type="reset">重置</button>
         </div>
-
     </div>
 </form>
+
 <script>
-    layui.use(['table','from'],function (){
-       var from=layui.form
-       var table = layui.form
+    layui.use(['table', 'form'], function() {
+        var form = layui.form;
+        var table = layui.form;
     });
 
-    function submitForm(){
+    function submitForm() {
         $.post(
-            '${path}/user?method=add',
-            $('#formId').serialize(),//序列化{'name':'zhansagn','age':23,'gender':'男'}
+            '${path}/user?method=update',
+            $('#formId').serialize(),//{'name':'zhansagn','age':23,'gender':'男'}
             function (jsonResult){
                 console.log(jsonResult)
                 if(jsonResult.ok){
                     layer.msg(
-                        '删除成功',
+                        '修改成功',
                         {icon : 1, time : 3000},
                         function() {// msg消失之后触发的函数
                             //获得当前弹出框的index
@@ -73,7 +77,7 @@
                     )
                 }
             }
-        )
+        );
     }
 </script>
 </body>

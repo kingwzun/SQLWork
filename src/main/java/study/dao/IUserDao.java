@@ -13,4 +13,8 @@ public interface IUserDao {
     Integer deleteAll(Integer[] ids);
 
     Integer add(User user);
+
+    User selectById(int parseInt);
+
+    Integer update(User user);
 }

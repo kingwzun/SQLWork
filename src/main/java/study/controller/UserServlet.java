@@ -41,6 +41,43 @@ public class UserServlet extends HttpServlet {
             case "add":
                 add(req,resp);
                 break;
+            case "getUserUpdatePage":
+                getUserUpdatePage(req, resp);
+                break;
+            case "update":
+                update(req,resp);
+                break;
+        }
+    }
+
+    private void getUserUpdatePage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("UserServlet.getUserUpdatePage");
+        String id = req.getParameter("id");
+        User user  = userService.selectById(Integer.parseInt(id));
+        req.setAttribute("user", user);
+        req.getRequestDispatcher("/user/user_update.jsp").forward(req, resp);
+    }
+
+    private void update(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("UserServlet.update");
+        String id = req.getParameter("id");
+        String name = req.getParameter("name");
+        String password = req.getParameter("password");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        User user = new User();
+        user.setId(Integer.parseInt(id));
+        user.setName(name);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setAvatar("");
+
+        boolean isSuccess = userService.update(user);
+        if (isSuccess) {
+            JSONUtil.obj2Json(JSONResult.ok("修改成功"), resp);
+        } else {
+            JSONUtil.obj2Json(JSONResult.error("修改失败"), resp);
         }
     }
 
@@ -105,7 +142,7 @@ public class UserServlet extends HttpServlet {
         //把数据放到req这个域对象
         req.setAttribute("list", list);
         //转发到user_list.jsp页面进行展示
-        req.getRequestDispatcher("/user_list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/user/user_list.jsp").forward(req, resp);
     }
 
 }

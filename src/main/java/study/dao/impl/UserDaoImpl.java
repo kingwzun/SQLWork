@@ -60,4 +60,18 @@ public class UserDaoImpl implements IUserDao {
         String sql = "insert into user(name,password,email,phone,avatar) values(?,?,?,?,?)";
         return template.update(sql, user.getName(), user.getPassword(), user.getEmail(), user.getPhone(), user.getAvatar());
     }
+    @Override
+    public User selectById(int id) {
+        String sql = "select id,name,password,email,phone from user where id=?";
+        // User user = jdbcTemplate.queryForObject(sql, User.class, id);
+        List<User> list = template.query(sql, new BeanPropertyRowMapper<User>(User.class), id);
+        return list.get(0);
+    }
+
+    @Override
+    public Integer update(User user) {
+        String sql = "update user set name=?,password=?,email=?,phone=?,avatar=? where id=?";
+        int count = template.update(sql, user.getName(), user.getPassword(), user.getEmail(), user.getPhone(), user.getAvatar(), user.getId());
+        return count;
+    }
 }

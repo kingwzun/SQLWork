@@ -13,4 +13,8 @@ public interface IUserService {
     Boolean deleteAll(String[] array);
 
     Boolean add(User user);
+
+    User selectById(int parseInt);
+
+    Boolean update(User user);
 }

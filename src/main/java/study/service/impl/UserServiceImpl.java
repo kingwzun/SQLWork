@@ -49,4 +49,16 @@ public class UserServiceImpl implements IUserService {
         int count=userDao.add(user);
         return count==1;
     }
+
+    @Override
+    public User selectById(int parseInt) {
+        return userDao.selectById(parseInt);
+
+    }
+
+    @Override
+    public Boolean update(User user) {
+        int count=userDao.update(user);
+        return count==1;
+    }
 }
