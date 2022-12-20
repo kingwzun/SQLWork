@@ -1,11 +1,14 @@
 package study.dao.impl;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.CollectionUtils;
 import study.dao.IUserDao;
 import study.pojo.User;
 import study.utils.JDBCUtil;
 
+import java.util.Collection;
 import java.util.List;
 
 public class UserDaoImpl implements IUserDao {
@@ -21,6 +24,9 @@ public class UserDaoImpl implements IUserDao {
     public List<User> selectByPage(Integer offset, Integer limit) {
         String sql = "select id,name,password,email,phone from user order by id desc limit ?,?";
         List<User> list = template.query(sql, new BeanPropertyRowMapper<User>(User.class), offset, limit);
+        if(CollectionUtils.isEmpty(list)){
+            return null;
+        }
         return list;
     }
 
@@ -78,8 +84,17 @@ public class UserDaoImpl implements IUserDao {
     @Override
     public User selectByNameAndPassword(String name, String password) {
         String sql = "select id,name,password,email,phone from user where name=? and password=?";
-        User user = null;
-        user=template.queryForObject(sql,new BeanPropertyRowMapper<User>(User.class), name,password);
-        return  user;
+        List<User> user = template.query(sql, new BeanPropertyRowMapper<User>(User.class),name,password);
+        if(CollectionUtils.isEmpty(user)){
+            return null;
+        }
+        return user.get(0);
+//解决方法2：捕获异常
+//        User user = null;
+//        try{
+//            user=template.queryForObject(sql,new BeanPropertyRowMapper<User>(User.class), name,password);
+//        }catch (EmptyResultDataAccessException e){
+//            e.printStackTrace();
+//        }
     }
 }
