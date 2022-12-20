@@ -99,7 +99,7 @@
 					'您确认要退出么',
 					{icon:3},
 					function() {
-						location.href = '${path}/user?method=logout'
+						location.href = '${path}/login?method=logout'
 					}
 			);
 		}

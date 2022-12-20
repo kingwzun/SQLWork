@@ -57,7 +57,14 @@ public class LoginServlet  extends HttpServlet {
             JSONUtil.obj2Json(JSONResult.error("用户名或密码错误"), resp);
         }
     }
-    private void logout(HttpServletRequest req, HttpServletResponse resp) {
+    private void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        System.out.println("UserServlet.logout");
 
+        HttpSession session = req.getSession();
+        //删除session凭证
+        session.invalidate();
+//        session.removeAttribute("user");
+        //跳转到登录界面
+        resp.sendRedirect(req.getContextPath()+"/login.jsp");
     }
 }
