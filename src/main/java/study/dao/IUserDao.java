@@ -17,4 +17,6 @@ public interface IUserDao {
     User selectById(int parseInt);
 
     Integer update(User user);
+
+    User selectByNameAndPassword(String name, String password);
 }
