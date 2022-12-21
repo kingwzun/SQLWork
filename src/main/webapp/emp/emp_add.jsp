@@ -38,8 +38,9 @@
         <label class="layui-form-label">部门</label>
         <div class="layui-input-block">
             <select name="deptId">
-                <option value="1">客房部</option>
-                <option value="2">保洁部</option>
+                <c:forEach items="${list}" var="dept">
+                    <option value="${dept.id}">${dept.name}</option>
+                </c:forEach>
             </select>
         </div>
     </div>

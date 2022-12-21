@@ -60,6 +60,7 @@
                 , {field: 'email', title: '邮箱'}
                 , {field: 'phone', title: '电话'}
                 , {field: 'deptId', title: '部门ID'}
+                ,{field:'deptName', title: '部门名字'}
                 , {field: '', title: '操作', toolbar: '#barDemo'}
             ]]
             , id: 'tableId'
@@ -75,7 +76,7 @@
                     layer.open({
                         type: 2,
                         area: ['700px', '400px'],
-                        content: '${path}/emp/emp_add.jsp'
+                        content: '${path}/emp?method=getEmpAddPage'
                     })
                     break;
                 case 'deleteAll':

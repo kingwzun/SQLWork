@@ -1,9 +1,12 @@
 package study.controller;
 
 
+import study.pojo.Dept;
 import study.pojo.Emp;
 import study.pojo.query.EmpQuery;
+import study.service.IDeptService;
 import study.service.IEmpService;
+import study.service.impl.DeptServiceImpl;
 import study.service.impl.EmpServiceImpl;
 import study.utils.JSONResult;
 import study.utils.JSONUtil;
@@ -20,7 +23,7 @@ import java.util.List;
 @WebServlet("/emp")
 public class EmpServlet extends HttpServlet {
     private IEmpService empService = new EmpServiceImpl();
-
+    private IDeptService deptService = new DeptServiceImpl();
     //http://localhost:8080/hotel/emp?method=selectAll
     //http://localhost:8080/hotel/emp?method=deleteById&id=1
     @Override
@@ -39,6 +42,9 @@ public class EmpServlet extends HttpServlet {
             case "deleteAll":
                 deleteAll(req,resp);
                 break;
+            case "getEmpAddPage":
+                getEmpAddPage(req,resp);
+                break;
             case "add":
                 add(req,resp);
                 break;
@@ -50,6 +56,7 @@ public class EmpServlet extends HttpServlet {
                 break;
         }
     }
+
 
     private void getEmpUpdatePage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("EmpServlet.getEmpUpdatePage");
@@ -80,6 +87,12 @@ public class EmpServlet extends HttpServlet {
         } else {
             JSONUtil.obj2Json(JSONResult.error("修改失败"), resp);
         }
+    }
+    private void getEmpAddPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("EmpServlet.getEmpAddPage");
+        List<Dept> list = deptService.selectAll();
+        req.setAttribute("list",list);
+        req.getRequestDispatcher("/emp/emp_add.jsp").forward(req, resp);
     }
 
     private void add(HttpServletRequest req, HttpServletResponse resp) {

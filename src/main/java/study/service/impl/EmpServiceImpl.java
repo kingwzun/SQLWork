@@ -4,9 +4,9 @@ import study.dao.IEmpDao;
 import study.dao.impl.EmpDaoImpl;
 import study.pojo.Emp;
 import study.pojo.query.EmpQuery;
+import study.pojo.vo.EmpDeptVO;
 import study.service.IEmpService;
 import study.utils.LayUITableResult;
-import study.utils.MD5Util;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class EmpServiceImpl implements IEmpService {
     public LayUITableResult selectByPage(EmpQuery empQuery) {
         //查询当前页的数据
 //        int offset = (page - 1) * limit;
-        List<Emp> list = empDao.selectByPage(empQuery);
+        List<EmpDeptVO> list = empDao.selectByPage(empQuery);
         //查询总的数量
         Long totalCount = empDao.selectTotalCount(empQuery);
         return LayUITableResult.ok(list, totalCount);

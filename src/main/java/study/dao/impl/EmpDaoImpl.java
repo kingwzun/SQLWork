@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 import study.dao.IEmpDao;
 import study.pojo.Emp;
 import study.pojo.query.EmpQuery;
+import study.pojo.vo.EmpDeptVO;
 import study.utils.JDBCUtil;
 
 import java.util.ArrayList;
@@ -22,9 +23,10 @@ public class EmpDaoImpl implements IEmpDao {
     }
 
     @Override
-    public List<Emp> selectByPage(EmpQuery empQuery) {
-        String sql = "select id,name,dept_id,email,phone from emp ";
-
+    public List<EmpDeptVO> selectByPage(EmpQuery empQuery) {
+        String sql = "SELECT e.id,e.name,e.email,e.phone,d.id as deptId, d.name as deptName\n" +
+                "FROM emp AS e INNER JOIN dept AS d\n" +
+                "on e.dept_id=d.id ";
         //where name=? and email=? and phone=?
         String where="where 1=1 ";//1=1不起作用，目的是为了消除拼接中and的影响
         List<Object> args=new ArrayList<>();
@@ -47,7 +49,7 @@ public class EmpDaoImpl implements IEmpDao {
             limit = "order by id desc limit " + offset + "," + empQuery.getLimit();
         }
 
-        List<Emp> list = template.query(sql+where+limit, new BeanPropertyRowMapper<Emp>(Emp.class), args.toArray());
+        List<EmpDeptVO> list = template.query(sql + where + limit, new BeanPropertyRowMapper<EmpDeptVO>(EmpDeptVO.class), args.toArray());
         if(CollectionUtils.isEmpty(list)){
             return null;
         }
