@@ -26,6 +26,22 @@
     </div>
 </script>
 
+<div class="demoTable">
+    搜索名字：
+    <div class="layui-inline">
+        <input class="layui-input" name="name" id="nameId" autocomplete="off">
+    </div>
+    邮箱：
+    <div class="layui-inline">
+        <input class="layui-input" name="email" id="emailId" autocomplete="off">
+    </div>
+    手机：
+    <div class="layui-inline">
+        <input class="layui-input" name="phone" id="phoneId" autocomplete="off">
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+</div>
+
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
 <script>
@@ -154,7 +170,22 @@
                 });
             }
         };
-
+        //多条件搜索
+        var $ = layui.$, active = {
+            reload: function(){
+                //执行重载
+                table.reload('tableId', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        name: $('#nameId').val(),
+                        email: $('#emailId').val(),
+                        phone: $('#phoneId').val(),
+                    }
+                });
+            }
+        };
         $('.demoTable .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';

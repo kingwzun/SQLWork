@@ -4,6 +4,7 @@ package study.service.impl;
 import study.dao.IUserDao;
 import study.dao.impl.UserDaoImpl;
 import study.pojo.User;
+import study.pojo.query.UserQuery;
 import study.service.IUserService;
 import study.utils.LayUITableResult;
 import study.utils.MD5Util;
@@ -19,12 +20,12 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public LayUITableResult selectByPage(Integer page, Integer limit) {
+    public LayUITableResult selectByPage(UserQuery userQuery) {
         //查询当前页的数据
-        int offset = (page - 1) * limit;
-        List<User> list = userDao.selectByPage(offset, limit);
+//        int offset = (page - 1) * limit;
+        List<User> list = userDao.selectByPage(userQuery);
         //查询总的数量
-        Long totalCount = userDao.selectTotalCount();
+        Long totalCount = userDao.selectTotalCount(userQuery);
         return LayUITableResult.ok(list, totalCount);
     }
 

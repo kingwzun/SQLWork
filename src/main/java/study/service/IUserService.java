@@ -1,13 +1,14 @@
 package study.service;
 
 import study.pojo.User;
+import study.pojo.query.UserQuery;
 import study.utils.LayUITableResult;
 
 import java.util.List;
 
 public interface IUserService {
     List<User> selectAll();
-    LayUITableResult selectByPage(Integer page, Integer limit);
+    LayUITableResult selectByPage(UserQuery userQuery);
     Boolean deleteById(Integer id);
 
     Boolean deleteAll(String[] array);
@@ -19,4 +20,6 @@ public interface IUserService {
     Boolean update(User user);
 
     User login(String name, String password);
+
+
 }

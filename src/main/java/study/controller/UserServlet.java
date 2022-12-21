@@ -2,6 +2,7 @@ package study.controller;
 
 
 import study.pojo.User;
+import study.pojo.query.UserQuery;
 import study.service.IUserService;
 import study.service.impl.UserServiceImpl;
 import study.utils.JSONResult;
@@ -101,13 +102,18 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    //https://layui.itze.cn/demo/table/user.json?page=1&limit=10
-    ///user?method=selectById&page=1&limit=10
+
+//    http://localhost:8080/JavaWeb/user?method=selectByPage&page=1&limit=10&name=333&email=333&phone=333
     private void selectByPage(HttpServletRequest req, HttpServletResponse resp) {
         System.out.println("UserServlet.selectByPage");
         int page = Integer.parseInt(req.getParameter("page"));
         int limit = Integer.parseInt(req.getParameter("limit"));
-        LayUITableResult layUITableResult = userService.selectByPage(page, limit);
+        String name = req.getParameter("name");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        UserQuery userQuery=new UserQuery(page,limit,name,email,phone);
+
+        LayUITableResult layUITableResult = userService.selectByPage(userQuery);
         JSONUtil.obj2Json(layUITableResult, resp);
     }
 
