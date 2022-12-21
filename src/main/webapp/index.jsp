@@ -57,6 +57,11 @@
 								data-url="${pageContext.request.contextPath}/dept/dept_list.jsp"
 								class="site-demo-active">部门管理</a>
 							</dd>
+							<dd>
+								<a href="javascript:;"
+								   data-url="${pageContext.request.contextPath}/echarts.jsp"
+								   class="site-demo-active">统计图表</a>
+							</dd>
 						</dl>
 					</li>
 					<li class="layui-nav-item">

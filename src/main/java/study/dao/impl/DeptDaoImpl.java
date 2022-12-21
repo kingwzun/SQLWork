@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import study.dao.IDeptDao;
 import study.pojo.Dept;
 import study.pojo.query.DeptQuery;
+import study.pojo.vo.DeptCountVO;
 import study.utils.JDBCUtil;
 
 import java.util.ArrayList;
@@ -117,5 +118,12 @@ public class DeptDaoImpl implements IDeptDao {
         String sql = "update dept set name=?,addr=? where id=?";
         int count = template.update(sql, dept.getName(), dept.getAddr(), dept.getId());
         return count;
+    }
+
+    @Override
+    public List<DeptCountVO> selectDeptCount() {
+        String sql = "SELECT d.name,count(*) as value FROM emp AS e INNER JOIN dept AS d on e.dept_id=d.id GROUP BY d.id";
+        List<DeptCountVO> list = template.query(sql, new BeanPropertyRowMapper<DeptCountVO>(DeptCountVO.class));
+        return  list;
     }
 }

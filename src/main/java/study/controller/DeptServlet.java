@@ -48,7 +48,16 @@ public class DeptServlet extends HttpServlet {
             case "update":
                 update(req, resp);
                 break;
+            case "selectDeptCount":
+                selectDeptCount(req, resp);
+                break;
         }
+    }
+
+    private void selectDeptCount(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("DeptServlet.selectDeptCount");
+        JSONResult jsonResult=deptService.selectDeptCount();
+        JSONUtil.obj2Json(jsonResult,resp);
     }
 
     private void update(HttpServletRequest req, HttpServletResponse resp) {

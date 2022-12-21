@@ -5,7 +5,9 @@ import study.dao.IDeptDao;
 import study.dao.impl.DeptDaoImpl;
 import study.pojo.Dept;
 import study.pojo.query.DeptQuery;
+import study.pojo.vo.DeptCountVO;
 import study.service.IDeptService;
+import study.utils.JSONResult;
 import study.utils.LayUITableResult;
 
 import java.util.List;
@@ -60,5 +62,11 @@ public class DeptServiceImpl implements IDeptService {
     public Boolean update(Dept dept) {
         int count = deptDao.update(dept);
         return count == 1;
+    }
+
+    @Override
+    public JSONResult selectDeptCount() {
+        List<DeptCountVO> list =deptDao.selectDeptCount();
+        return JSONResult.ok(list);
     }
 }
