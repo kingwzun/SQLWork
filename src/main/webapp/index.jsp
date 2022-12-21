@@ -49,7 +49,7 @@
 							</dd>
 							<dd>
 								<a href="javascript:;" 
-								data-url="${pageContext.request.contextPath}/employee_list.jsp"
+								data-url="${pageContext.request.contextPath}/emp/emp_list.jsp"
 								class="site-demo-active">员工管理</a>
 							</dd>
 							<dd>
