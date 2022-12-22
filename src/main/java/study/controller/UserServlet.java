@@ -1,6 +1,7 @@
 package study.controller;
 
 
+import com.alibaba.druid.util.StringUtils;
 import study.pojo.User;
 import study.pojo.query.UserQuery;
 import study.service.IUserService;
@@ -116,8 +117,12 @@ public class UserServlet extends HttpServlet {
         String phone = req.getParameter("phone");
         String beginDate = req.getParameter("beginDate");
         String endDate = req.getParameter("endDate");
-//        Integer type = Integer.parseInt( req.getParameter("type"));
-        UserQuery userQuery = new UserQuery(page, limit, name, email, phone, DateUtil.parse(beginDate), DateUtil.parse(endDate));
+        String typeStr = req.getParameter("type");
+        Integer type = null;
+        if (!StringUtils.isEmpty(typeStr)) {
+            type = Integer.parseInt(typeStr);
+        }
+        UserQuery userQuery = new UserQuery(page, limit, name, email, phone, DateUtil.parse(beginDate), DateUtil.parse(endDate),type);
 
         LayUITableResult layUITableResult = userService.selectByPage(userQuery);
         JSONUtil.obj2Json(layUITableResult, resp);

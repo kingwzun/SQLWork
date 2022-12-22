@@ -31,6 +31,14 @@
         </c:if>
 </script>
 
+<script type="text/html" id="typeTemplet">
+    {{#     if (d.type==1) {            }}
+    <span class="layui-badge layui-bg-orange">超级管理员</span>
+    {{#     } else if (d.type==2) {     }}
+    <span class="layui-badge layui-bg-green">普通管理员</span>
+    {{#     }                           }}
+</script>
+
 <div class="demoTable">
     搜索名字：
     <div class="layui-inline">
@@ -43,6 +51,14 @@
     手机：
     <div class="layui-inline">
         <input class="layui-input" name="phone" id="phoneId" autocomplete="off">
+    </div>
+    管理员:
+    <div class="layui-inline">
+        <select id="typeId" name="type">
+            <option value="">--管理员类型--</option>
+            <option value="1">超级管理员</option>
+            <option value="2">普通管理员</option>
+        </select>
     </div>
     开始时间
     <div class="layui-inline">
@@ -81,7 +97,7 @@
                 , {field: 'id', title: 'ID', sort: true}
                 , {field: 'name', title: '用户名'}
                 , {field: 'password', title: '密码'}
-                ,{field:'type', title: '管理员类型'}
+                ,{field:'type', title: '管理员类型',templet: '#typeTemplet'}
                 , {field: 'email', title: '邮箱'}
                 , {field: 'phone', title: '电话'}
                 ,{field:'status', title: '状态'}
@@ -210,6 +226,7 @@
                         name: $('#nameId').val(),
                         email: $('#emailId').val(),
                         phone: $('#phoneId').val(),
+                        type: $('#typeId').val(),
                         beginDate: $('#beginDateId').val(),
                         endDate: $('#endDateId').val(),                    }
                 });

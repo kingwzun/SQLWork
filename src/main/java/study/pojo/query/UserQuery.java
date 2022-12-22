@@ -15,4 +15,6 @@ public class UserQuery {
     private String phone;
     private Date beginDate;
     private Date endDate;
+    //1-超级管理员 2-普通管理员
+    private Integer type;
 }

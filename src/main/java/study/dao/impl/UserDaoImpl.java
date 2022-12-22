@@ -41,6 +41,10 @@ public class UserDaoImpl implements IUserDao {
             where+="and phone=? ";
             args.add(userQuery.getPhone());
         }
+        if (userQuery.getType() != null) {
+            where += "and type=? ";
+            args.add(userQuery.getType());
+        }
         if (userQuery.getBeginDate() != null && userQuery.getEndDate() != null) {
             where += "and gmt_create between ? and ? ";
             args.add(userQuery.getBeginDate());
@@ -80,6 +84,10 @@ public class UserDaoImpl implements IUserDao {
         if(!StringUtils.isEmpty(userQuery.getPhone())){
             where+="and phone=? ";
             args.add(userQuery.getPhone());
+        }
+        if (userQuery.getType() != null) {
+            where += "and type=?";
+            args.add(userQuery.getType());
         }
         if (userQuery.getBeginDate() != null && userQuery.getEndDate() != null) {
             where += "and gmt_create between ? and ? ";
