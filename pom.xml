@@ -7,6 +7,10 @@
   <version>1.0-SNAPSHOT</version>
   <name>Hotel Maven Webapp</name>
   <url>http://maven.apache.org</url>
+<!--  设置项目编码为UTF8-->
+  <properties>
+       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
   <dependencies>
     <dependency>
       <groupId>jstl</groupId>
