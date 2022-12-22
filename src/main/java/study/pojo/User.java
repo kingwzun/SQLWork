@@ -17,5 +17,7 @@ public class User {
     private Integer deleted;
     private Date gmtCreate;
     private Date gmtModified;
+    //1-超级管理员 2-普通管理员
+    private Integer type;
 }
 

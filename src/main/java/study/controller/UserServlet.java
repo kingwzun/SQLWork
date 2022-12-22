@@ -89,12 +89,14 @@ public class UserServlet extends HttpServlet {
         String password = req.getParameter("password");
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
+        Integer type = Integer.parseInt( req.getParameter("type"));
         User user=new User();
         user.setName(name);
         user.setPassword(password);
         user.setEmail(email);
         user.setPhone(phone);
         user.setAvatar("");
+        user.setType(type);
         Boolean isSuccess = userService.add(user);
         if (isSuccess) {
             JSONUtil.obj2Json(JSONResult.ok("添加成功"), resp);
@@ -114,6 +116,7 @@ public class UserServlet extends HttpServlet {
         String phone = req.getParameter("phone");
         String beginDate = req.getParameter("beginDate");
         String endDate = req.getParameter("endDate");
+//        Integer type = Integer.parseInt( req.getParameter("type"));
         UserQuery userQuery = new UserQuery(page, limit, name, email, phone, DateUtil.parse(beginDate), DateUtil.parse(endDate));
 
         LayUITableResult layUITableResult = userService.selectByPage(userQuery);

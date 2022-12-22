@@ -41,6 +41,13 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">管理员类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="type" value="1" title="超级管理员" checked="">
+            <input type="radio" name="type" value="2" title="普通管理员">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" type="button" onclick="submitForm()" >添加</button>
             <button class="layui-btn" type="reset" >重置</button>

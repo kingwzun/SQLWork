@@ -14,16 +14,21 @@
 <body>
 <%--表格内嵌工具条--%>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <c:if test="${user.type==1}">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </c:if>
+<%--    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>--%>
+<%--    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>--%>
 </script>
 <%--顶部工具条--%>
 <script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
-        <button class="layui-btn layui-btn-sm" lay-event="deleteAll">批量删除</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
-    </div>
+        <c:if test="${user.type==1}">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+                <button class="layui-btn layui-btn-sm" lay-event="deleteAll">批量删除</button>
+            </div>
+        </c:if>
 </script>
 
 <div class="demoTable">
@@ -76,6 +81,7 @@
                 , {field: 'id', title: 'ID', sort: true}
                 , {field: 'name', title: '用户名'}
                 , {field: 'password', title: '密码'}
+                ,{field:'type', title: '管理员类型'}
                 , {field: 'email', title: '邮箱'}
                 , {field: 'phone', title: '电话'}
                 ,{field:'status', title: '状态'}

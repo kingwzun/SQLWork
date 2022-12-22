@@ -18,15 +18,14 @@ public class UserDaoImpl implements IUserDao {
     private  JdbcTemplate template =new JdbcTemplate(JDBCUtil.getDataSource());
     @Override
     public List<User> selectAll() {
-        String sql = "select id,name,password,email,phone from user ";
+        String sql = "select id,name,type,password,email,phone,status,gmt_create,gmt_modified from user ";
         List<User> list = template.query(sql, new BeanPropertyRowMapper<User>(User.class));
         return list;
     }
 
     @Override
     public List<User> selectByPage(UserQuery userQuery) {
-        String sql = "select id,name,password,email,phone,status,gmt_create,gmt_modified from user ";
-
+        String sql = "select id,name,type,password,email,phone,status,gmt_create,gmt_modified from user ";
         //where name=? and email=? and phone=?
         String where="where 1=1 ";//1=1不起作用，目的是为了消除拼接中and的影响
         List<Object> args=new ArrayList<>();
@@ -117,8 +116,8 @@ public class UserDaoImpl implements IUserDao {
 
     @Override
     public Integer add(User user) {
-        String sql = "insert into user(name,password,email,phone,avatar) values(?,?,?,?,?)";
-        return template.update(sql, user.getName(), user.getPassword(), user.getEmail(), user.getPhone(), user.getAvatar());
+        String sql = "insert into user(name,password,email,phone,avatar,type) values(?,?,?,?,?,?)";
+        return template.update(sql, user.getName(), user.getPassword(), user.getEmail(), user.getPhone(), user.getAvatar(),user.getType());
     }
     @Override
     public User selectById(int id) {
@@ -137,7 +136,7 @@ public class UserDaoImpl implements IUserDao {
 
     @Override
     public User selectByNameAndPassword(String name, String password) {
-        String sql = "select id,name,password,email,phone from user where name=? and password=?";
+        String sql = "select id,name,password,email,phone,type from user where name=? and password=?";
         List<User> user = template.query(sql, new BeanPropertyRowMapper<User>(User.class),name,password);
         if(CollectionUtils.isEmpty(user)){
             return null;
