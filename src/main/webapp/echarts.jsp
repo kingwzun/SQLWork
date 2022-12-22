@@ -16,9 +16,11 @@
 <body>
 <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
 <div id="main" style="width: 600px;height:400px;"></div>
+<div id="main2" style="width: 600px;height:400px;"></div>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
+    var myChart2 = echarts.init(document.getElementById('main2'));
     $.post(
         '${path}/dept?method=selectDeptCount', //发送的请求
         function (jsonResult) {     //返回的参数
@@ -52,12 +54,44 @@
                     }
                 ]
             };
-
             // 使用刚指定的配置项和数据显示图表。
             myChart.setOption(option);
+
+            //饼状图
+           var option2 = {
+               title: {
+                   text: 'Referer of a Website',
+                   subtext: 'Fake Data',
+                   left: 'center'
+               },
+               tooltip: {
+                   trigger: 'item'
+               },
+               legend: {
+                   orient: 'vertical',
+                   left: 'left'
+               },
+                series: [
+                    {
+                        name: 'Access From',
+                        type: 'pie',
+                        radius: '50%',
+                        data: array,
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart2.setOption(option2);
         },
 
     );
+
 
 </script>
 </body>
