@@ -5,6 +5,7 @@ import study.pojo.User;
 import study.pojo.query.UserQuery;
 import study.service.IUserService;
 import study.service.impl.UserServiceImpl;
+import study.utils.DateUtil;
 import study.utils.JSONResult;
 import study.utils.JSONUtil;
 import study.utils.LayUITableResult;
@@ -111,7 +112,9 @@ public class UserServlet extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
-        UserQuery userQuery=new UserQuery(page,limit,name,email,phone);
+        String beginDate = req.getParameter("beginDate");
+        String endDate = req.getParameter("endDate");
+        UserQuery userQuery = new UserQuery(page, limit, name, email, phone, DateUtil.parse(beginDate), DateUtil.parse(endDate));
 
         LayUITableResult layUITableResult = userService.selectByPage(userQuery);
         JSONUtil.obj2Json(layUITableResult, resp);

@@ -17,6 +17,5 @@ public class User {
     private Integer deleted;
     private Date gmtCreate;
     private Date gmtModified;
-
 }
 

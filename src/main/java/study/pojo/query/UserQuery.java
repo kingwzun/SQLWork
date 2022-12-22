@@ -3,6 +3,8 @@ package study.pojo.query;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 public class UserQuery {
@@ -11,4 +13,6 @@ public class UserQuery {
     private String name;
     private String email;
     private String phone;
+    private Date beginDate;
+    private Date endDate;
 }

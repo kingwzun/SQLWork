@@ -39,15 +39,33 @@
     <div class="layui-inline">
         <input class="layui-input" name="phone" id="phoneId" autocomplete="off">
     </div>
+    开始时间
+    <div class="layui-inline">
+        <input type="text" class="layui-input" id="beginDateId" placeholder="yyyy-MM-dd HH:mm:ss">
+    </div>
+    结束时间
+    <div class="layui-inline">
+        <input type="text" class="layui-input" id="endDateId" placeholder="yyyy-MM-dd HH:mm:ss">
+    </div>
     <button class="layui-btn" data-type="reload">搜索</button>
 </div>
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
 <script>
-    layui.use('table', function () {
+    layui.use(['table','laydate'], function(){
         var table = layui.table;
+        var laydate = layui.laydate;
 
+        //日期时间选择器
+        laydate.render({
+            elem: '#beginDateId'
+            ,type: 'datetime'
+        });
+        laydate.render({
+            elem: '#endDateId'
+            ,type: 'datetime'
+        });
         //table 方法级渲染
         table.render({
             elem: '#test'
@@ -60,6 +78,10 @@
                 , {field: 'password', title: '密码'}
                 , {field: 'email', title: '邮箱'}
                 , {field: 'phone', title: '电话'}
+                ,{field:'status', title: '状态'}
+                ,{field:'gmtCreate', title: '创建时间',templet:"<div>{{!d.gmtCreate.time?'':layui.util.toDateString(d.gmtCreate.time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                ,{field:'gmtModified', title: '更新时间',templet:"<div>{{!d.gmtModified.time?'':layui.util.toDateString(d.gmtModified.time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+                ,{field:'', title: '操作', toolbar: '#barDemo'}
                 , {field: 'phone', title: '操作', toolbar: '#barDemo'}
             ]]
             , id: 'tableId'
@@ -182,7 +204,8 @@
                         name: $('#nameId').val(),
                         email: $('#emailId').val(),
                         phone: $('#phoneId').val(),
-                    }
+                        beginDate: $('#beginDateId').val(),
+                        endDate: $('#endDateId').val(),                    }
                 });
             }
         };
